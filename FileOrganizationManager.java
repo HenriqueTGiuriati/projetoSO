@@ -14,6 +14,9 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     BufferedWriter bw;
     File f;
     
+    
+    
+    //comentario
     //construtor
     public FileOrganizationManager(/*File f*/)  {
     
