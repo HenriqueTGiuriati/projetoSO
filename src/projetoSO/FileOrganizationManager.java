@@ -14,10 +14,7 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     BufferedWriter bw;
     File f;
     
-    
-    
-    //comentario
-    //construtor
+    //construtor passar o metodo de gerenciamento e o arquivo
     public FileOrganizationManager(/*File f*/)  {
     
         //this.f = f;
@@ -26,7 +23,7 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     
     //implementacao dos metodos
     
-    
+    //fazer para o arquivo inteiro 
     public void compact()  {
         
         String linha;
