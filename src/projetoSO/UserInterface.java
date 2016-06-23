@@ -4,6 +4,7 @@
 package projetoso;
 
 import java.util.Scanner;
+import java.io.*;
 
 /**
  *
@@ -20,8 +21,10 @@ public class UserInterface {
     
         Scanner sc = new Scanner(System.in);
         String opcao = "0";
+        
+        File f = new File("teste.txt");
    
-        FileOrganizationManager fom = new FileOrganizationManager();
+        FileOrganizationManager fom = new FileOrganizationManager(f);
         fom.compact();
         
         while(!opcao.equals("3"))  {

@@ -1,5 +1,5 @@
 /*
- * Classe que implementa a interface ManagementInterface
+ * Classe que implementa a interface ManagementInterface para Vetor de Bits
  */
 
 package projetoso;
@@ -14,10 +14,28 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     BufferedWriter bw;
     File f;
     
-    //construtor passar o metodo de gerenciamento e o arquivo
-    public FileOrganizationManager(/*File f*/)  {
+    //construtor recebe arquivo
+    public FileOrganizationManager(File f)  {
     
-        //this.f = f;
+        try  {
+            
+            this.f = f;
+            
+            if(!f.exists())  {
+              
+                System.out.println("Arquivo nao encontrado!");
+            
+            }  else  {
+                
+                fr = new FileReader(f);
+                br = new BufferedReader(fr);
+            
+            }
+        
+        }  catch(IOException ioe)  {
+            
+            System.err.println(ioe);
+        }
         
     }
     
@@ -31,12 +49,12 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
         
         try  {
         
-            fr = new FileReader("teste.txt");
+            //fr = new FileReader("teste.txt");
             br = new BufferedReader(fr);
           
             //nao sei se vai compactar o arquivo inteiro ou so uma linha, colocar while           
             linha = br.readLine(); //armazena primeira linha
-            linha = br.readLine(); //so para testar
+            //linha = br.readLine(); //so para testar
    
             linha2 = linha.toCharArray();
   
