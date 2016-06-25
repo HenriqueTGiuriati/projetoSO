@@ -5,6 +5,7 @@
 package projetoso;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class FileOrganizationManager /*implements ManagementInterface*/ {
     
@@ -136,39 +137,47 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
         }
     
     }
-    /*
-    //utilizada para obter informacoes sobre um bloco de dados
-    //SO TENTEI, AINDA NAO DEU CERTO
+    
+    //utilizada para obter informacoes sobre um bloco de dados, retornara se o bloco esta disponivel ou nao
+    //AINDA NAO DEU CERTO FUNCIONA PARA VALORES <= ao tamanho da linha!
     public String getDataBlockInfo(int blockId)  {
         
-        String linha, info = "0";
-        int matrix[][] = new int[8][8];
+        String info = "0";
+        int bit, loop;
+        char vetor[] = new char[blockId];
+        int i;
+        char verifica;
+        String linha;
+        boolean check = false;
         
         try  {
-            
-            for(int i=0; i<8; i++)  {
-                for(int j=0; i<8; j++)  {
-            
-                    matrix[i][j] = br.read();
-                }
-            }
         
-            for(int i=0; i<8; i++)  {
-                for(int j=0; i<8; j++)  {
-            
-                    System.out.print(matrix[i][j] + " ");
-                    
-                }
-                System.out.println();
+            i = 0;
+            bit = br.read(vetor, 0, blockId); //le o arquivo e armazena as posicoes em um vetor
+             
+            while(i < blockId)  {
+                
+                System.out.println(vetor[i]);
+                i++;
+                
             }
-        
+            
+            verifica = vetor[blockId - 1]; //a ultima posicao sera a posicao requerida
+            
+            if(verifica == '0')  {
+                info = "Bloco disponivel";
+            }  else  {
+                info = "Bloco alocado";
+            }
+            
         }  catch(IOException ioe)  {
             System.err.println(ioe);
         }
-        
+
+        System.out.println(info);
         return info;
     }
-    
+    /*
     public int[] getEmptyFileBlockList()  {
         
     }
@@ -176,8 +185,16 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     public int[] getUsedFileBlockList()  {
     
     }
-    
+    */
     public boolean saveToFile(String fileName)  {
+        
+        File fileSave;
+        FileWriter fw;
+        BufferedWriter save;
+        
+        fileSave = new File(fileName);
+        
     
-    }*/
+        return true;
+    }
 }

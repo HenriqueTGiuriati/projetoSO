@@ -25,9 +25,9 @@ public class FileOrganizationModuleSimulator {
         File f = new File("teste.txt");
    
         FileOrganizationManager fom = new FileOrganizationManager(f);
-        fom.compact();
+        //fom.compact();
         //fom.format();
-        //fom.getDataBlockInfo(3);
+        fom.getDataBlockInfo(5);
         
         while(!opcao.equals("3"))  {
             
