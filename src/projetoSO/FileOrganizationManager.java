@@ -138,29 +138,17 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     }
     
     //utilizada para obter informacoes sobre um bloco de dados, retornara se o bloco esta disponivel ou nao
-    //AINDA NAO DEU CERTO FUNCIONA PARA VALORES <= ao tamanho da linha!
     public String getDataBlockInfo(int blockId)  {
         
         String info = "0";
-        //int bit, loop;
         char vetor[] = new char[blockId];
-        int i;
         char verifica, linha2[];
         String linha;
         
         try  {
         
-            //i = 0;
-            //bit = br.read(vetor, 0, blockId); //le o arquivo e armazena as posicoes em um vetor
-             
-            /*while(i < blockId)  {
-                
-                System.out.println(vetor[i]);
-                i++;
-                
-            }*/
             int k = 0;
-            int j = 0;
+            int j;
             
             while(br.ready()) { 
             
@@ -168,7 +156,7 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
                 linha2 = linha.toCharArray(); //cria um vetor da linha
                 
                 j = 0;
-                while(j < linha2.length && k < blockId)  {
+                while(j < linha2.length && k < blockId)  { //o vetor vai armazenar ate a posicao requerida
                     
                     vetor[k] = linha2[j];
                     k++;
@@ -178,10 +166,10 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
                 
             }
             
-            for(j=0; j<vetor.length; j++)  {
+            /*for(j=0; j<vetor.length; j++)  {
                 
-                    System.out.print(vetor[j]);
-            }
+                System.out.print(vetor[j]);
+            }*/
             
             verifica = vetor[blockId - 1]; //a ultima posicao sera a posicao requerida
             
@@ -195,18 +183,123 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
             System.err.println(ioe);
         }
 
-        System.out.println(info);
+        //System.out.println(info);
         return info;
     }
-    /*
+    
+    //utilizada para recuperar a lista de blocos disponiveis no sistema
     public int[] getEmptyFileBlockList()  {
+        
+        int emptyList[] = new int[30];
+        char vetorTotal[] = new char[500];
+        char linha2[];
+        String linha;
+        int j, k;
+        
+        try  {
+            
+            k = 0;
+            
+            while(br.ready()) { 
+
+                    linha = br.readLine();
+                    linha2 = linha.toCharArray(); //cria um vetor da linha
+
+                    j = 0;
+                    while(j < linha2.length)  { //armazena todos os blocos em um vetor
+
+                        vetorTotal[k] = linha2[j];
+                        j++;
+                        k++;
+
+                    }
+
+            }
+            
+            int count = 0;  //armazena posicoes vazias
+            int w = 0;
+            for(int u=0; u<vetorTotal.length; u++)  {
+                
+                if(vetorTotal[u] == '0')  {
+
+                    emptyList[w] = count;  //armazena no vetor de blocos livres
+                    w++;
+                    
+                }
+               
+                count++;
+            }
+            
+            for(int u=0; u<emptyList.length; u++)  {
+          
+                System.out.print(emptyList[u] + " ");
+                
+            }
+           
+        }  catch(IOException ioe)  {
+            System.err.println(ioe);
+        }
+        
+        return emptyList;
+    }
+    
+    //utilizada para recuperar a lista de blocos alocados no sistema
+    public int[] getUsedFileBlockList()  {
+    
+        int alocList[] = new int[30];
+        char vetorTotal[] = new char[500];
+        char linha2[];
+        String linha;
+        int j, k;
+        
+        try  {
+            
+            k = 0;
+            
+            while(br.ready()) { 
+
+                    linha = br.readLine();
+                    linha2 = linha.toCharArray(); //cria um vetor da linha
+
+                    j = 0;
+                    while(j < linha2.length)  { //armazena todos os blocos em um vetor
+
+                        vetorTotal[k] = linha2[j];
+                        j++;
+                        k++;
+
+                    }
+
+            }
+            
+            int count = 0;  //armazena posicoes ocupadas
+            int w = 0;
+            for(int u=0; u<vetorTotal.length; u++)  {
+                
+                if(vetorTotal[u] == '1')  {
+
+                    alocList[w] = count;  //armazena no vetor de blocos ocupados
+                    w++;
+                    
+                }
+               
+                count++;
+            }
+            
+            for(int u=0; u<alocList.length; u++)  {
+          
+                System.out.print(alocList[u] + " ");
+                
+            }
+           
+        }  catch(IOException ioe)  {
+            System.err.println(ioe);
+        }
+        
+        return alocList;
         
     }
     
-    public int[] getUsedFileBlockList()  {
-    
-    }
-    */
     public boolean saveToFile(String fileName)  {
         
         File fileSave;

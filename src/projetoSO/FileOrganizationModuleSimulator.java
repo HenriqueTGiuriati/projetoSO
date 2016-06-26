@@ -21,15 +21,20 @@ public class FileOrganizationModuleSimulator {
     
         Scanner sc = new Scanner(System.in);
         String opcao = "0";
+        String opcaoInterna = "0";
+        int numeroBloco;
+        boolean trocaMenu = false;
         
         File f = new File("teste.txt");
    
         FileOrganizationManager fom = new FileOrganizationManager(f);
         //fom.compact();
         //fom.format();
-        fom.getDataBlockInfo(31);
+        //fom.getDataBlockInfo(1);
+        //fom.getEmptyFileBlockList();
+        //fom.getUsedFileBlockList();
         
-        while(!opcao.equals("3"))  {
+        while(!opcao.equals("3") && trocaMenu == false)  {
             
             System.out.println("Escolha a politica de gerenciamento de espaco livre:");
             System.out.println("1 - Vetor de bits \n2 - Agrupamento\n3 - Sair");
@@ -40,13 +45,78 @@ public class FileOrganizationModuleSimulator {
             //chama a execucao do vetor de bits
             if(opcao.equals("1"))  {
                 
-                System.out.println("Voce escolheu vetor de bits\n");
+                trocaMenu = true;
+                System.out.println("****Vetor de Bits****");
+                System.out.println("1. Compactar");
+                System.out.println("2. Alocar Blocos");
+                System.out.println("3. Liberar Blocos");
+                System.out.println("4. Formatar");
+                System.out.println("5. Informacao Bloco");
+                System.out.println("6. Lista de Blocos Disponiveis");
+                System.out.println("7. Lista de Blocos Ocupados");
+                System.out.println("8. Salvar em arquivo");
+                System.out.println("9. Voltar\n");
+                
+                System.out.print("> ");
+                opcaoInterna = sc.nextLine();
+                
+                if(opcaoInterna.equals("1"))  {
+                    fom.compact();
+                    //trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("2"))  {
+                
+                    trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("3"))  {
+                
+                    trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("4"))  {
+                    fom.format();
+                    //trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("5"))  {
+                
+                    System.out.print("Entre com o numero do bloco:");
+                    numeroBloco = sc.nextInt();
+                    System.out.println("Informacao: " + fom.getDataBlockInfo(numeroBloco));
+                    System.out.println();
+                    //trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("6"))  {
+                
+                    fom.getEmptyFileBlockList();
+                    //trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("7"))  {
+                    
+                    fom.getUsedFileBlockList();
+                    //trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("8"))  {
+                      
+                    trocaMenu = false;
+                }
+                
+                else if(opcaoInterna.equals("9"))  {
+                    
+                    trocaMenu = false;
+                }
             
             }
             //chama a execucao do agrupamento
             else if(opcao.equals("2"))  {
                 
-                System.out.println("Voce escolheu agrupamento\n");
+                trocaMenu = true;
+                System.out.println("****Agrupamento****\n");
             
             }
             //sair do programa
