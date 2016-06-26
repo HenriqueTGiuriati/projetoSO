@@ -5,7 +5,6 @@
 package projetoso;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class FileOrganizationManager /*implements ManagementInterface*/ {
     
@@ -143,23 +142,45 @@ public class FileOrganizationManager /*implements ManagementInterface*/ {
     public String getDataBlockInfo(int blockId)  {
         
         String info = "0";
-        int bit, loop;
+        //int bit, loop;
         char vetor[] = new char[blockId];
         int i;
-        char verifica;
+        char verifica, linha2[];
         String linha;
-        boolean check = false;
         
         try  {
         
-            i = 0;
-            bit = br.read(vetor, 0, blockId); //le o arquivo e armazena as posicoes em um vetor
+            //i = 0;
+            //bit = br.read(vetor, 0, blockId); //le o arquivo e armazena as posicoes em um vetor
              
-            while(i < blockId)  {
+            /*while(i < blockId)  {
                 
                 System.out.println(vetor[i]);
                 i++;
                 
+            }*/
+            int k = 0;
+            int j = 0;
+            
+            while(br.ready()) { 
+            
+                linha = br.readLine();
+                linha2 = linha.toCharArray(); //cria um vetor da linha
+                
+                j = 0;
+                while(j < linha2.length && k < blockId)  {
+                    
+                    vetor[k] = linha2[j];
+                    k++;
+                    j++;
+                
+                }
+                
+            }
+            
+            for(j=0; j<vetor.length; j++)  {
+                
+                    System.out.print(vetor[j]);
             }
             
             verifica = vetor[blockId - 1]; //a ultima posicao sera a posicao requerida

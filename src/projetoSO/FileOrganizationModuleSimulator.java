@@ -27,7 +27,7 @@ public class FileOrganizationModuleSimulator {
         FileOrganizationManager fom = new FileOrganizationManager(f);
         //fom.compact();
         //fom.format();
-        fom.getDataBlockInfo(5);
+        fom.getDataBlockInfo(31);
         
         while(!opcao.equals("3"))  {
             
