@@ -80,6 +80,11 @@ public class FileOrganizationModuleSimulator {
                             case 3:
                                 
                                 int[] vector = new int[]{3, 5};
+                                int i = 0;
+                                /*
+                                while(i <)  {
+                                
+                                }*/
                         
                                 fomvt.freeDataBlocks(vector);
                                 
@@ -120,7 +125,7 @@ public class FileOrganizationModuleSimulator {
                             case 7:
                                 
                                 int vetorCheios[] = new int[fomvt.getUsedFileBlockList().length];
-                                int l = 1;
+                                int l = 0;
                                 
                                 vetorCheios = fomvt.getUsedFileBlockList();
                                 

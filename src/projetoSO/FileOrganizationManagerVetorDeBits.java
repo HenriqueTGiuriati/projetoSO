@@ -113,10 +113,10 @@ public class FileOrganizationManagerVetorDeBits implements ManagementInterface  
 
             while(i < vetorDeBits.length && j < array.length)  {
                 
-                if(vetorDeBits[i] == 1)  {
+                if(vetorDeBits[i] == 0)  {
 
                     array[j] = i;
-                    vetorDeBits[i] = 0;
+                    vetorDeBits[i] = 1;
                     j++;
 
                 }
