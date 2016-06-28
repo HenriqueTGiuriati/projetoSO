@@ -78,14 +78,24 @@ public class FileOrganizationModuleSimulator {
                                 break;
                                 
                             case 3:
+                                      
+                                int numero;
+                                System.out.print("Entre com o numero de blocos que deseja liberar:"); 
+                                numero = sc.nextInt();
+                                System.out.println("Entre com os blocos que deseja liberar:");
+
+                                int[] vector;
                                 
-                                int[] vector = new int[]{3, 5};
+                                vector = new int[numero];
                                 int i = 0;
-                                /*
-                                while(i <)  {
                                 
-                                }*/
-                        
+                                while(i < vector.length)  {
+                                    
+                                    vector[i] = sc.nextInt();
+                                    i++;
+                                
+                                }
+                                
                                 fomvt.freeDataBlocks(vector);
                                 
                                 break;
