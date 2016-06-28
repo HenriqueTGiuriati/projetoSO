@@ -1,3 +1,5 @@
+package projetoSO;
+
 public interface ManagementInterface {
 	public void compact();
 	public int[] allocateDataBlock(int numberOfBlocks);

@@ -1,7 +1,7 @@
 /*
  * Classe de interface com o usuario
  */
-package projetoso;
+package projetoSO;
 
 import java.util.Scanner;
 import java.io.*;
@@ -54,8 +54,7 @@ public class FileOrganizationModuleSimulator {
                 System.out.println("5. Informacao Bloco");
                 System.out.println("6. Lista de Blocos Disponiveis");
                 System.out.println("7. Lista de Blocos Ocupados");
-                System.out.println("8. Salvar em arquivo");
-                System.out.println("9. Voltar\n");
+                System.out.println("8. Voltar\n");
                 
                 System.out.print("> ");
                 opcaoInterna = sc.nextLine();
@@ -99,11 +98,6 @@ public class FileOrganizationModuleSimulator {
                     
                     fom.getUsedFileBlockList();
                     //trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("8"))  {
-                      
-                    trocaMenu = false;
                 }
                 
                 else if(opcaoInterna.equals("9"))  {
