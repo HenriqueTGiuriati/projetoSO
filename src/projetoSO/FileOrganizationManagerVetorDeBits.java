@@ -12,7 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class FileOrganizationManager /* implements ManagementInterface */ {
+public class FileOrganizationManagerVetorDeBits implements ManagementInterface  {
 
 	FileReader fr;
 	BufferedReader br;
@@ -27,7 +27,7 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 	private int n = 0;
 
 	// construtor recebe arquivo
-	public FileOrganizationManager(File f) {
+	public FileOrganizationManagerVetorDeBits(File f) {
 
 		try {
 
@@ -72,9 +72,9 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 					}
 				}
 				
-				for (int j = 0; j < vetorDeBits.length; j++) {
+				/*for (int j = 0; j < vetorDeBits.length; j++) {
 					System.out.print(vetorDeBits[j] + " ");
-				}
+				}*/
 
 			}
 
@@ -91,7 +91,7 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
 		int count = 0;
 
-		for (int i = 0; i < vetorDeBits.length; i++) {
+		for (int i = 1; i < vetorDeBits.length; i++) {
 			if (vetorDeBits[i] == 1) {
 				count++;
 			}
@@ -102,10 +102,6 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 		for (int i = 1; i < count + 1; i++) {
 			vetorDeBits[i] = 1;
 		}
-                /*
-		for (int i = 0; i < vetorDeBits.length; i++) {
-			System.out.print(vetorDeBits[i] + " ");
-		}*/
 
 	}
 
@@ -213,11 +209,11 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
             }
 
-            for (int u = 0; u < emptyList.length; u++) {
+            /*for (int u = 0; u < emptyList.length; u++) {
 
                 System.out.print(emptyList[u] + " ");
 
-            }
+            }*/
 
             return emptyList;
 	}
@@ -257,11 +253,11 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
             }
 
-            for (int u = 1; u < alocList.length; u++) {
+            /*for (int u = 1; u < alocList.length; u++) {
 
                 System.out.print(alocList[u] + " ");
 
-            }
+            }*/
 
             return alocList;
 	}

@@ -20,8 +20,8 @@ public class FileOrganizationModuleSimulator {
     public static void main(String[] args) {
     
         Scanner sc = new Scanner(System.in);
-        String opcao = "0";
-        String opcaoInterna = "0";
+        int opcao = 0;
+        int opcaoInterna = 0;
         String nomeArquivo;
         int numeroBlocosAlocar;
         int numeroBloco;
@@ -29,130 +29,146 @@ public class FileOrganizationModuleSimulator {
         
         File f = new File("teste.txt");
    
-        FileOrganizationManager fom = new FileOrganizationManager(f);
+        FileOrganizationManagerVetorDeBits fomvt = new FileOrganizationManagerVetorDeBits(f);
 
-        while(!opcao.equals("3") && trocaMenu == false)  {
+        while(opcao != 3 && trocaMenu == false)  {
             
             System.out.println("Escolha a politica de gerenciamento de espaco livre:");
             System.out.println("1 - Vetor de bits \n2 - Agrupamento\n3 - Sair");
-        
-            System.out.print("> ");
-            opcao = sc.nextLine();
-
-            //chama a execucao do vetor de bits
-            if(opcao.equals("1") && trocaMenu == false)  {
-                
-                trocaMenu = true;
-                while(trocaMenu == true)  {
-
-                    System.out.println("****Vetor de Bits****");
-                    System.out.println("1. Compactar");
-                    System.out.println("2. Alocar Blocos");
-                    System.out.println("3. Liberar Blocos");
-                    System.out.println("4. Formatar");
-                    System.out.println("5. Informacao Bloco");
-                    System.out.println("6. Lista de Blocos Disponiveis");
-                    System.out.println("7. Lista de Blocos Ocupados");
-                    System.out.println("8. Salvar no arquivo");
-                    System.out.println("9. Voltar\n");
-
-                    System.out.print("> ");
-                    opcaoInterna = sc.nextLine();
-
-                    if(opcaoInterna.equals("1"))  {
-                        fom.compact();
-
-                    }
-
-                    else if(opcaoInterna.equals("2"))  {
-
-                        System.out.print("Entre com o numero de blocos que deseja alocar: ");
-                        numeroBlocosAlocar = sc.nextInt();
-                        fom.allocateDataBlock(numeroBlocosAlocar);
-                        trocaMenu = false;
-                    }
-
-                    else if(opcaoInterna.equals("3"))  {
-                        
-                        int[] vector = new int[]{3, 5};
-                        
-                        fom.freeDataBlocks(vector);
-                       /* int k = 0;
-                        int[] blockId;
-                        System.out.print("Entre com quais blocos voce deseja liberar: ");
-                        
-                        while(k < blockId.length)  {
-                        
-                            blockId[k] = sc.nextInt();
-                            k++;
-                        }
-                        trocaMenu = false;*/
-                    }
-
-                    else if(opcaoInterna.equals("4"))  {
-                        fom.format();
-                        //trocaMenu = false;
-                    }
-
-                    else if(opcaoInterna.equals("5"))  {
-
-                        System.out.print("Entre com o numero do bloco:");
-                        numeroBloco = sc.nextInt();
-                        System.out.println("Informacao: " + fom.getDataBlockInfo(numeroBloco));
-                        System.out.println();
-                        //trocaMenu = true;
-
-                    }
-
-                    else if(opcaoInterna.equals("6"))  {
-
-                        fom.getEmptyFileBlockList();
-
-                    }
-
-                    else if(opcaoInterna.equals("7"))  {
-
-                        fom.getUsedFileBlockList();
-
-                    }
-
-                    else if(opcaoInterna.equals("8"))  {
-
-                        System.out.print("Salvar no arquivo: ");
-                        nomeArquivo = sc.nextLine();
-                        fom.saveToFile(nomeArquivo);
-
-                    }
-
-                    else if(opcaoInterna.equals("9"))  {
-
-                        trocaMenu = false;
-
-                    }
-                  
-                
-                }
-                
-            }
-            //chama a execucao do agrupamento
-            else if(opcao.equals("2"))  {
-                
-                trocaMenu = true;
-                System.out.println("****Agrupamento****\n");
             
-            }
-            //sair do programa
-            else if(opcao.equals("3"))  {
+            System.out.print("> ");
+            opcao = sc.nextInt();
+            
+            switch(opcao)  {
                 
-                System.exit(0);
+                case 1:
+                    
+                    trocaMenu = true;
                 
-            }
-            //caso qualquer outro numero seja digitado
-            else  {
+                    while(trocaMenu == true)  {
 
-                System.out.println("Digite apenas as opcoes: 1/2/3\n");
+                        System.out.println("****Vetor de Bits****");
+                        System.out.println("1. Compactar");
+                        System.out.println("2. Alocar Blocos");
+                        System.out.println("3. Liberar Blocos");
+                        System.out.println("4. Formatar");
+                        System.out.println("5. Informacao Bloco");
+                        System.out.println("6. Lista de Blocos Disponiveis");
+                        System.out.println("7. Lista de Blocos Ocupados");
+                        System.out.println("8. Salvar no arquivo");
+                        System.out.println("9. Voltar\n");
+
+                        System.out.print("> ");
+                        opcaoInterna = sc.nextInt();
+                        
+                        switch(opcaoInterna)  {
+                        
+                            case 1:
+                                
+                                fomvt.compact();
+                                
+                                break;
+                                
+                            case 2:
+                                
+                                System.out.print("Entre com o numero de blocos que deseja alocar: ");
+                                numeroBlocosAlocar = sc.nextInt();
+                                fomvt.allocateDataBlock(numeroBlocosAlocar);
+                                
+                                break;
+                                
+                            case 3:
+                                
+                                int[] vector = new int[]{3, 5};
+                        
+                                fomvt.freeDataBlocks(vector);
+                                
+                                break;
+                                
+                            case 4:
+                                
+                                fomvt.format();
+                                break;
+                                
+                            case 5:
+                                
+                                System.out.print("Entre com o numero do bloco:");
+                                numeroBloco = sc.nextInt();
+                                System.out.println("Informacao: " + fomvt.getDataBlockInfo(numeroBloco));
+                                System.out.println();
+                                
+                                break;
+                                
+                            case 6:
+                                
+                                int vetorVazios[] = new int[fomvt.getEmptyFileBlockList().length];
+                                int k = 0;
+                                
+                                vetorVazios = fomvt.getEmptyFileBlockList();
+                                
+                                System.out.println("Lista de Blocos Vazios:");
+                                while(k < vetorVazios.length)  {
+                           
+                                    System.out.print(vetorVazios[k] + " ");
+                                    k++;
+                                    
+                                }
+                               
+                                
+                                break;
+                                
+                            case 7:
+                                
+                                int vetorCheios[] = new int[fomvt.getUsedFileBlockList().length];
+                                int l = 1;
+                                
+                                vetorCheios = fomvt.getUsedFileBlockList();
+                                
+                                System.out.println("Lista de Blocos ocupados:");
+                                while(l < vetorCheios.length)  {
+                           
+                                    System.out.print(vetorCheios[l] + " ");
+                                    l++;
+                                    
+                                }
+
+                                
+                                break;
+                                
+                            case 8:
+                                
+                                System.out.print("Salvar no arquivo: ");
+                                nomeArquivo = sc.nextLine();
+                                nomeArquivo = sc.nextLine();  
+                                fomvt.saveToFile(nomeArquivo);
+                                
+                            case 9:
+                                
+                                trocaMenu = false;
+                                
+                                break;                        
+                           
+                        
+                        }
+                        
+                    }
+
+                    break;
+                    
+                case 2:
+                    
+                    break;
+                    
+                case 3:
+                    
+                    System.exit(0);
+                    break;
+                
+                default:
+                    System.out.println("Pressione 1/2/3 apenas");
+
             }
-      
+        
         }
     
     }
