@@ -22,6 +22,7 @@ public class FileOrganizationModuleSimulator {
         Scanner sc = new Scanner(System.in);
         String opcao = "0";
         String opcaoInterna = "0";
+        String nomeArquivo;
         int numeroBloco;
         boolean trocaMenu = false;
         
@@ -43,68 +44,84 @@ public class FileOrganizationModuleSimulator {
             opcao = sc.nextLine();
 
             //chama a execucao do vetor de bits
-            if(opcao.equals("1"))  {
+            if(opcao.equals("1") && trocaMenu == false)  {
                 
                 trocaMenu = true;
-                System.out.println("****Vetor de Bits****");
-                System.out.println("1. Compactar");
-                System.out.println("2. Alocar Blocos");
-                System.out.println("3. Liberar Blocos");
-                System.out.println("4. Formatar");
-                System.out.println("5. Informacao Bloco");
-                System.out.println("6. Lista de Blocos Disponiveis");
-                System.out.println("7. Lista de Blocos Ocupados");
-                System.out.println("8. Voltar\n");
+                while(trocaMenu == true)  {
+
+                    System.out.println("****Vetor de Bits****");
+                    System.out.println("1. Compactar");
+                    System.out.println("2. Alocar Blocos");
+                    System.out.println("3. Liberar Blocos");
+                    System.out.println("4. Formatar");
+                    System.out.println("5. Informacao Bloco");
+                    System.out.println("6. Lista de Blocos Disponiveis");
+                    System.out.println("7. Lista de Blocos Ocupados");
+                    System.out.println("8. Salvar no arquivo");
+                    System.out.println("9. Voltar\n");
+
+                    System.out.print("> ");
+                    opcaoInterna = sc.nextLine();
+
+                    if(opcaoInterna.equals("1"))  {
+                        fom.compact();
+
+                    }
+
+                    else if(opcaoInterna.equals("2"))  {
+
+                        trocaMenu = false;
+                    }
+
+                    else if(opcaoInterna.equals("3"))  {
+
+                        trocaMenu = false;
+                    }
+
+                    else if(opcaoInterna.equals("4"))  {
+                        fom.format();
+                        //trocaMenu = false;
+                    }
+
+                    else if(opcaoInterna.equals("5"))  {
+
+                        System.out.print("Entre com o numero do bloco:");
+                        numeroBloco = sc.nextInt();
+                        System.out.println("Informacao: " + fom.getDataBlockInfo(numeroBloco));
+                        System.out.println();
+                        //trocaMenu = true;
+
+                    }
+
+                    else if(opcaoInterna.equals("6"))  {
+
+                        fom.getEmptyFileBlockList();
+
+                    }
+
+                    else if(opcaoInterna.equals("7"))  {
+
+                        fom.getUsedFileBlockList();
+
+                    }
+
+                    else if(opcaoInterna.equals("8"))  {
+
+                        System.out.print("Salvar no arquivo: ");
+                        nomeArquivo = sc.nextLine();
+                        fom.saveToFile(nomeArquivo);
+
+                    }
+
+                    else if(opcaoInterna.equals("9"))  {
+
+                        trocaMenu = false;
+
+                    }
+                  
                 
-                System.out.print("> ");
-                opcaoInterna = sc.nextLine();
-                
-                if(opcaoInterna.equals("1"))  {
-                    fom.compact();
-                    //trocaMenu = false;
                 }
                 
-                else if(opcaoInterna.equals("2"))  {
-                
-                    trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("3"))  {
-                
-                    trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("4"))  {
-                    fom.format();
-                    //trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("5"))  {
-                
-                    System.out.print("Entre com o numero do bloco:");
-                    numeroBloco = sc.nextInt();
-                    System.out.println("Informacao: " + fom.getDataBlockInfo(numeroBloco));
-                    System.out.println();
-                    //trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("6"))  {
-                
-                    fom.getEmptyFileBlockList();
-                    //trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("7"))  {
-                    
-                    fom.getUsedFileBlockList();
-                    //trocaMenu = false;
-                }
-                
-                else if(opcaoInterna.equals("9"))  {
-                    
-                    trocaMenu = false;
-                }
-            
             }
             //chama a execucao do agrupamento
             else if(opcao.equals("2"))  {

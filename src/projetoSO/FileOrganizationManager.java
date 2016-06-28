@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FileOrganizationManager /* implements ManagementInterface */ {
 
@@ -56,14 +57,13 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
 				vetorDeBits = new int[m * n];
 				
-				
 				fr = new FileReader(f);
 				br = new BufferedReader(fr);
 
 				int i=0;
 				// preenche vetorDeBits
 				while ((linha = br.readLine()) != null) {
-					System.out.println("oie: "+linha);
+					
 					count = 0;
 					while (count < linha.length()) {
 						vetorDeBits[i] = Integer.parseInt(linha.substring(count, count+1));
@@ -87,8 +87,6 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
 	// implementacao dos metodos
 
-	// SO FALTA SALVAR A COMPACTACAO NO ARQUIVO, NAO SEI SE FAZ AQUI OU NO
-	// SAVETOFILE
 	public void compact() {
 
 		int count = 0;
@@ -104,37 +102,34 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 		for (int i = 1; i < count + 1; i++) {
 			vetorDeBits[i] = 1;
 		}
-
+                /*
 		for (int i = 0; i < vetorDeBits.length; i++) {
 			System.out.print(vetorDeBits[i] + " ");
-		}
+		}*/
 
 	}
 
-	/*
-	 * public int[] allocateDataBlock(int numberOfBlocks) {
-	 * 
-	 * 
-	 * }
-	 * 
-	 * public boolean freeDataBlocks(int[] blockId) {
-	 * 
-	 * }
-	 */
+	
+	/*public int[] allocateDataBlock(int numberOfBlocks) {
+	 
+	 
+	}*/
+	  
+        /*public boolean freeDataBlocks(int[] blockId) {
+	 
+	}*/
+	 
 
 	// utilizada para formatar o sistema de arquivos, tornando todos os blocos
 	// disponiveis
 	public void format() {
+            
+            vetorDeBits[0] = 1;
 
-		// vetorDeBits = new int[m*n];
+            for (int i = 1; i < m * n; i++) {
+                    vetorDeBits[i] = 0;
+            }
 
-		vetorDeBits[0] = 1;
-
-		for (int i = 1; i < m * n; i++) {
-			vetorDeBits[i] = 0;
-		}
-
-		// saveToFile();
 
 	}
 
@@ -142,130 +137,103 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 	// bloco esta disponivel ou nao
 	public String getDataBlockInfo(int blockId) {
 
-		String info = "";
+            String info = "";
 
-		if (vetorDeBits[blockId + 1] == 0) {
-			info = "Bloco disponivel";
-		} else {
-			info = "Bloco alocado";
-		}
+            if (vetorDeBits[blockId + 1] == 0) {
+                    info = "Bloco disponivel";
+            } else {
+                    info = "Bloco alocado";
+            }
 
-		return info;
+            return info;
 	}
 
 	// utilizada para recuperar a lista de blocos disponiveis no sistema
 	public int[] getEmptyFileBlockList() {
 
-		int emptyList[] = new int[30];
-		char vetorTotal[] = new char[500];
-		char linha2[];
-		String linha;
-		int j, k;
+            int emptyList[];
 
-		try {
+            int countEmpty = 0;
+            int j = 0;
 
-			k = 0;
+            //conta numero de posicoes vazias
+            while(j < vetorDeBits.length)  {
 
-			while (br.ready()) {
+                if(vetorDeBits[j] == 0)  {
+                    countEmpty++;
+                }
 
-				linha = br.readLine();
-				linha2 = linha.toCharArray(); // cria um vetor da linha
+                j++;
+            }
 
-				j = 0;
-				while (j < linha2.length) { // armazena todos os blocos em um
-											// vetor
+            emptyList = new int[countEmpty];  //inicializa vetor de blocos vazios
 
-					vetorTotal[k] = linha2[j];
-					j++;
-					k++;
+            int count = 0; // armazena posicoes dos blocos vazios
+            int w = 0;
 
-				}
+            for (int u = 0; u < vetorDeBits.length; u++) {
 
-			}
+                if (vetorDeBits[u] == 0) {
 
-			int count = 0; // armazena posicoes vazias
-			int w = 0;
-			for (int u = 0; u < vetorTotal.length; u++) {
+                        emptyList[w] = count; // armazena no vetor de blocos livres
+                        w++;
+                }
 
-				if (vetorTotal[u] == '0') {
+                count++;
 
-					emptyList[w] = count; // armazena no vetor de blocos livres
-					w++;
+            }
 
-				}
+            for (int u = 0; u < emptyList.length; u++) {
 
-				count++;
-			}
+                System.out.print(emptyList[u] + " ");
 
-			for (int u = 0; u < emptyList.length; u++) {
+            }
 
-				System.out.print(emptyList[u] + " ");
-
-			}
-
-		} catch (IOException ioe) {
-			System.err.println(ioe);
-		}
-
-		return emptyList;
+            return emptyList;
 	}
 
 	// utilizada para recuperar a lista de blocos alocados no sistema
 	public int[] getUsedFileBlockList() {
 
-		int alocList[] = new int[30];
-		char vetorTotal[] = new char[500];
-		char linha2[];
-		String linha;
-		int j, k;
+            int alocList[];
 
-		try {
+            int countAloc = 0;
+            int j = 0;
 
-			k = 0;
+            //conta numero de posicoes vazias
+            while(j < vetorDeBits.length)  {
 
-			while (br.ready()) {
+                if(vetorDeBits[j] == 1)  {
+                    countAloc++;
+                }
 
-				linha = br.readLine();
-				linha2 = linha.toCharArray(); // cria um vetor da linha
+                j++;
+            }
 
-				j = 0;
-				while (j < linha2.length) { // armazena todos os blocos em um
-											// vetor
+            alocList = new int[countAloc];  //inicializa vetor de blocos ocupados
 
-					vetorTotal[k] = linha2[j];
-					j++;
-					k++;
+            int count = 0; // armazena posicoes dos blocos ocupados
+            int w = 0;
 
-				}
+            for (int u = 0; u < vetorDeBits.length; u++) {
 
-			}
+                if (vetorDeBits[u] == 1) {
 
-			int count = 0; // armazena posicoes ocupadas
-			int w = 0;
-			for (int u = 0; u < vetorTotal.length; u++) {
+                        alocList[w] = count; // armazena no vetor de blocos ocupados
+                        w++;
+                }
 
-				if (vetorTotal[u] == '1') {
+                count++;
 
-					alocList[w] = count; // armazena no vetor de blocos ocupados
-					w++;
+            }
 
-				}
+            /*for (int u = 0; u < alocList.length; u++) {
 
-				count++;
-			}
+                System.out.print(alocList[u] + " ");
 
-			for (int u = 0; u < alocList.length; u++) {
+            }*/
 
-				System.out.print(alocList[u] + " ");
-
-			}
-
-		} catch (IOException ioe) {
-			System.err.println(ioe);
-		}
-
-		return alocList;
-
+            return alocList;
 	}
 
 	public boolean saveToFile(String fileName) {
@@ -273,11 +241,39 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 		File fileSave;
 		FileWriter fw;
 		BufferedWriter save;
+                PrintWriter pw;
+                int i = 0, j = 0, k = 0;
 
-		fileSave = new File(fileName);
+                try  {
+                           
+                    fileSave = new File(fileName + ".txt");
+                    fw = new FileWriter(fileSave);
+                    save = new BufferedWriter(fw);
+                    pw = new PrintWriter(fileSave);
+                    
+                    while(i < m)  {
+                    
+                        j = 0;
+                        while(j < n)  {
+                      
+                            pw.write(Integer.toString(vetorDeBits[k]));
+                            j++;
+                            k++;
+                        }
+                   
+                        pw.println();
+                        i++;
+                    }
 
-		// salvar o vetorDeBits no arquivo
-
-		return true;
+                    save.flush();
+                    save.close();
+                    fw.close();
+                    pw.close();
+                
+                }  catch(IOException ioe)  {
+                    System.err.println(ioe);
+                }
+ 
+            return true;
 	}
 }
