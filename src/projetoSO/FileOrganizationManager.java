@@ -110,16 +110,46 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 	}
 
 	
-	/*public int[] allocateDataBlock(int numberOfBlocks) {
+	public int[] allocateDataBlock(int numberOfBlocks) {
 	 
-	 
-	}*/
-	  
-        /*public boolean freeDataBlocks(int[] blockId) {
-	 
-	}*/
-	 
+            int array[] = new int[numberOfBlocks];
+            int i = 1, j = 0;
 
+            while(i < vetorDeBits.length && j < array.length)  {
+                
+                if(vetorDeBits[i] == 1)  {
+
+                    array[j] = i;
+                    vetorDeBits[i] = 0;
+                    j++;
+
+                }
+                
+                i++;
+                        
+            }
+            
+            return array;
+            
+	}
+	  
+        public boolean freeDataBlocks(int[] blockId) {  // 3, 4, 7
+	 
+            int i = 0;
+            int temp;
+
+            while(i < blockId.length)  {
+            
+                temp = blockId[i];
+                
+                vetorDeBits[temp] = 0;
+                
+                i++;  
+            }
+            
+            return true;
+	}
+	 
 	// utilizada para formatar o sistema de arquivos, tornando todos os blocos
 	// disponiveis
 	public void format() {
@@ -227,11 +257,11 @@ public class FileOrganizationManager /* implements ManagementInterface */ {
 
             }
 
-            /*for (int u = 0; u < alocList.length; u++) {
+            for (int u = 1; u < alocList.length; u++) {
 
                 System.out.print(alocList[u] + " ");
 
-            }*/
+            }
 
             return alocList;
 	}

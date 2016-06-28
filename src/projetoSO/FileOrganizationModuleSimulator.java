@@ -23,18 +23,14 @@ public class FileOrganizationModuleSimulator {
         String opcao = "0";
         String opcaoInterna = "0";
         String nomeArquivo;
+        int numeroBlocosAlocar;
         int numeroBloco;
         boolean trocaMenu = false;
         
         File f = new File("teste.txt");
    
         FileOrganizationManager fom = new FileOrganizationManager(f);
-        //fom.compact();
-        //fom.format();
-        //fom.getDataBlockInfo(1);
-        //fom.getEmptyFileBlockList();
-        //fom.getUsedFileBlockList();
-        
+
         while(!opcao.equals("3") && trocaMenu == false)  {
             
             System.out.println("Escolha a politica de gerenciamento de espaco livre:");
@@ -70,12 +66,27 @@ public class FileOrganizationModuleSimulator {
 
                     else if(opcaoInterna.equals("2"))  {
 
+                        System.out.print("Entre com o numero de blocos que deseja alocar: ");
+                        numeroBlocosAlocar = sc.nextInt();
+                        fom.allocateDataBlock(numeroBlocosAlocar);
                         trocaMenu = false;
                     }
 
                     else if(opcaoInterna.equals("3"))  {
-
-                        trocaMenu = false;
+                        
+                        int[] vector = new int[]{3, 5};
+                        
+                        fom.freeDataBlocks(vector);
+                       /* int k = 0;
+                        int[] blockId;
+                        System.out.print("Entre com quais blocos voce deseja liberar: ");
+                        
+                        while(k < blockId.length)  {
+                        
+                            blockId[k] = sc.nextInt();
+                            k++;
+                        }
+                        trocaMenu = false;*/
                     }
 
                     else if(opcaoInterna.equals("4"))  {
