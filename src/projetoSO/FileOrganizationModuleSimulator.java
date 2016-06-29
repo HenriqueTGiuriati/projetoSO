@@ -134,6 +134,8 @@ public class FileOrganizationModuleSimulator {
 							k++;
 
 						}
+                                                
+                                                System.out.println();
 
 						break;
 
@@ -151,6 +153,8 @@ public class FileOrganizationModuleSimulator {
 							l++;
 
 						}
+                                                
+                                                System.out.println();
 
 						break;
 
@@ -262,6 +266,8 @@ public class FileOrganizationModuleSimulator {
 							k++;
 
 						}
+                                                
+                                                System.out.println();
 
 						break;
 
@@ -279,6 +285,8 @@ public class FileOrganizationModuleSimulator {
 							l++;
 
 						}
+                                                
+                                                System.out.println();
 
 						break;
 

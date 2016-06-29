@@ -21,6 +21,7 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 	File f;
 
 	private List<int[]> agrupamento = new ArrayList<int[]>();
+        private int totalBlocos;  //variavel global para trabalhar com o total de blocos no arquivo
 
 	public FileOrganizationManagerAgrupamento(File f) {
 
@@ -38,24 +39,24 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 				br = new BufferedReader(fr);
 				String linha = "";
 				int i = 0, count = 0, countLinha = 0, nroBloco = 0;
-
+                          
 				// inicializa o meu agrupamento (primeiro vetor)
 				int[] vetorInicio = new int[8];
 				for (int j = 0; j < 8; j++)
 					vetorInicio[j] = -1;
 				agrupamento.add(vetorInicio);
 
-				// ler o numero de posições vazias no arquivo e criar a lista
+				// ler o numero de posicoes vazias no arquivo e criar a lista
 				// para cada linha do arquivo
 				while ((linha = br.readLine()) != null) {
 					countLinha = 0;
-					// pega cada posição da linha
+					// pega cada posiï¿½ï¿½o da linha
 					while (countLinha < linha.length()) {
 						// insere aquele valor no vetor da lista
 						if (Integer.parseInt(linha.substring(countLinha, countLinha + 1)) == 0) {
 							agrupamento.get(i)[count] = nroBloco;
 							count++;
-							// verifica se vetor está cheio e insere novo
+							// verifica se vetor esta cheio e insere novo
 							// vetor
 							if (count % 7 == 0) {
 								int[] vetor = new int[8];
@@ -70,7 +71,9 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 						nroBloco++;
 					}
 				}
-
+                                
+                                totalBlocos = nroBloco;
+                                
 				for (int x = 0; x < agrupamento.size(); x++) {
 					for (int j = 0; j < 8; j++) {
 						System.out.print(agrupamento.get(x)[j] + " ");
@@ -86,89 +89,142 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#compact()
-	 */
-	@Override
 	public void compact() {
 		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#allocateDataBlock(int)
-	 */
-	@Override
 	public int[] allocateDataBlock(int numberOfBlocks) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#freeDataBlocks(int[])
-	 */
-	@Override
 	public boolean freeDataBlocks(int[] blockId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#format()
-	 */
-	@Override
 	public void format() {
-		// TODO Auto-generated method stub
+        
+            
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#getDataBlockInfo(int)
-	 */
-	@Override
 	public String getDataBlockInfo(int blockId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+            String info = "";
+            boolean verifica = false;
+
+            for (int x = 0; x < agrupamento.size(); x++) {
+
+                for (int j = 0; j < 8; j++) {
+
+                    if(agrupamento.get(x)[j] == blockId)  {
+
+                        info = "Bloco disponivel";
+                        verifica = true;
+                    } 
+
+                }
+
+            }
+            
+            //caso ele nao encontre nenhum bloco na lista
+            //bloco esta alocado
+            if(verifica == false)  {
+            
+                info = "Bloco alocado";
+            }
+
+            return info;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#getEmptyFileBlockList()
-	 */
-	@Override
+        //percorrer a lista e pegar os indices
 	public int[] getEmptyFileBlockList() {
-		// TODO Auto-generated method stub
-		return null;
+		
+            int emptyList[];
+            int temp;
+            int k = 0, count = 0;
+            
+            //contar numero de posicoes vazias para inicializar o vetor emptyList
+            for (int x = 0; x < agrupamento.size(); x++) {
+                
+                for (int j = 0; j < 8; j++) {
+                    
+                    temp = agrupamento.get(x)[j];
+                    if(temp != -1)  {
+                    
+                        count++;
+                    }
+                }
+                
+            }
+
+            emptyList = new int[count];
+            
+            //aramazenar os blocos disponiveis na lista
+            for (int l = 0; l < agrupamento.size(); l++) {
+                
+                for (int t = 0; t < 8; t++) {
+                    
+                    if(agrupamento.get(l)[t] != -1)  {
+                    
+                        emptyList[k] = agrupamento.get(l)[t];  //posicao da lista seguida da posicao do vetor
+                        k++;
+                    }
+        
+                }
+            }
+  
+            /*for (int j = 0; j < emptyList.length; j++) {
+		System.out.print(emptyList[j] + " ");
+            }*/
+
+            return emptyList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#getUsedFileBlockList()
-	 */
-	@Override
+        //percorrer e pegar blocos que nao estao na lista
 	public int[] getUsedFileBlockList() {
-		// TODO Auto-generated method stub
-		return null;
+		
+            /*int alocList[];
+            int temp[];
+            
+            int count = 0, k = 0, j = 0;
+            int arm;
+
+            temp = new int[totalBlocos];
+            alocList = new int[totalBlocos - getEmptyFileBlockList().length]; //Blocos Totais - disponiveis
+                 
+
+            //aramazenar os blocos disponiveis na lista
+            for (int l = 0; l < agrupamento.size(); l++) {
+                
+                for (int t = 0; t < 8; t++) {
+                    
+                    temp[k] = agrupamento.get(l)[t];
+                    k++;
+        
+                }
+
+            }
+            
+            for(int i = 0; i < temp.length; i++)  {
+                
+                if(temp[i] != count)  {
+                
+                    alocList[j] = count; //0 
+                    j++;
+                }
+                count++;
+            }
+            
+            for (int z = 0; z < alocList.length; z++) {
+		System.out.print(alocList[z] + " ");
+            }*/
+
+            return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see projetoSO.ManagementInterface#saveToFile(java.lang.String)
-	 */
-	@Override
 	public boolean saveToFile(String fileName) {
 		// TODO Auto-generated method stub
 		return false;
