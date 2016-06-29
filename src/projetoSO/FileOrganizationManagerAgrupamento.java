@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +107,18 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 	}
 
 	public void format() {
+            
+            for (int x = 0; x < agrupamento.size(); x++) {
+
+                for (int j = 0; j < 8; j++) {
+
+                    agrupamento.get(x)[j] = -1;
+
+                }
+
+            }
+        
+            agrupamento.get(0)[0] = 0;
 
 	}
 
@@ -222,8 +235,56 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 	}
 
 	public boolean saveToFile(String fileName) {
-		// TODO Auto-generated method stub
-		return false;
+            
+            File fileSave;
+            FileWriter fw;
+            BufferedWriter save;
+            PrintWriter pw;
+            int i = 0, k = 0;
+            int temp[];
+            int arm[];
+
+            try {
+
+                fileSave = new File(fileName + ".txt");
+                fw = new FileWriter(fileSave);
+                save = new BufferedWriter(fw);
+                pw = new PrintWriter(fileSave);
+
+                temp = getEmptyFileBlockList();
+                arm = new int[getEmptyFileBlockList().length];
+                
+                for(int x = 0; x < temp.length; x++)  {
+                
+                    k = temp[x];  //k armazena o bloco
+                    for(int j = 0; j < temp.length; j++)  {
+                        
+                        if(k != -1)  {
+                            arm[k] = 0;
+                        }
+                    
+                    }
+
+                    //pw.write(Integer.toString(temp));
+                }
+                //pw.println();
+                
+                for (int z = 0; z < temp.length; z++) {
+                    System.out.print(temp[z] + " ");
+                }
+                    
+  
+                save.flush();
+                save.close();
+                fw.close();
+                pw.close();
+
+            } catch (IOException ioe) {
+                System.err.println(ioe);
+            }
+
+            return false;
+		
 	}
 
 }
