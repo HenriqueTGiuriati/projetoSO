@@ -24,18 +24,16 @@ public class FileOrganizationModuleSimulator {
 		int numeroBloco;
 		boolean trocaMenu = false;
 
-		
-
 		System.out.println("Insira o nome do arquivo: ");
 		System.out.print("> ");
 		String nameFile = sc.nextLine();
-		
+
 		File f;
-		if(nameFile.contains(".txt"))
+		if (nameFile.contains(".txt"))
 			f = new File(nameFile);
 		else
 			f = new File(nameFile + ".txt");
-		
+
 		while (opcao != 3 && trocaMenu == false) {
 
 			System.out.println("Escolha a politica de gerenciamento de espaco livre:");
@@ -134,8 +132,8 @@ public class FileOrganizationModuleSimulator {
 							k++;
 
 						}
-                                                
-                                                System.out.println();
+
+						System.out.println();
 
 						break;
 
@@ -153,8 +151,8 @@ public class FileOrganizationModuleSimulator {
 							l++;
 
 						}
-                                                
-                                                System.out.println();
+
+						System.out.println();
 
 						break;
 
@@ -178,14 +176,14 @@ public class FileOrganizationModuleSimulator {
 				break;
 
 			case 2:
-				
+
 				FileOrganizationManagerAgrupamento foma = new FileOrganizationManagerAgrupamento(f);
 
 				trocaMenu = true;
 
 				while (trocaMenu == true) {
 
-					System.out.println("****Vetor de Bits****");
+					System.out.println("****Agrupamento****");
 					System.out.println("1. Compactar");
 					System.out.println("2. Alocar Blocos");
 					System.out.println("3. Liberar Blocos");
@@ -234,8 +232,12 @@ public class FileOrganizationModuleSimulator {
 
 						}
 
-						foma.freeDataBlocks(vector);
+						boolean result = foma.freeDataBlocks(vector);
 
+						if (result == true)
+							System.out.println("Bloco liberado");
+						else
+							System.out.println("Não foi possível liberar nenhum destes blocos");
 						break;
 
 					case 4:
@@ -266,8 +268,8 @@ public class FileOrganizationModuleSimulator {
 							k++;
 
 						}
-                                                
-                                                System.out.println();
+
+						System.out.println();
 
 						break;
 
@@ -285,8 +287,8 @@ public class FileOrganizationModuleSimulator {
 							l++;
 
 						}
-                                                
-                                                System.out.println();
+
+						System.out.println();
 
 						break;
 

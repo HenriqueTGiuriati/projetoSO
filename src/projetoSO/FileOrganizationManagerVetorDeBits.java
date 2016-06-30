@@ -129,7 +129,7 @@ public class FileOrganizationManagerVetorDeBits implements ManagementInterface {
 
 	}
 
-	public boolean freeDataBlocks(int[] blockId) { // 3, 4, 7
+	public boolean freeDataBlocks(int[] blockId) { 
 
 		int i = 0;
 		int temp;

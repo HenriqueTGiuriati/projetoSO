@@ -92,33 +92,162 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 	}
 
 	public void compact() {
-		// TODO Auto-generated method stub
+		int count = 0;
+		// determina numero de blocos livres
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				if (agrupamento.get(x)[j] != -1) {
+					count++;
+				}
+			}
+		}
+
+		// formata meu agrupamento
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				agrupamento.get(x)[j] = -1;
+			}
+		}
+
+		// marca os ultimos x blocos do disco no agrupamento
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 7; j++) {
+				if (count > 0) {
+					agrupamento.get(x)[j] = totalBlocos - count;
+					count--;
+				}
+			}
+		}
 
 	}
 
 	public int[] allocateDataBlock(int numberOfBlocks) {
-		// TODO Auto-generated method stub
-		return null;
+
+		int count = 0;
+		int vetorResult[] = new int[numberOfBlocks];
+
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				if (count < numberOfBlocks) {
+					vetorResult[count] = agrupamento.get(x)[j];
+					agrupamento.get(x)[j] = -1;
+					count++;
+				}
+			}
+		}
+
+		int aux[] = new int[totalBlocos];
+		for (int x = 0; x < totalBlocos; x++) {
+			aux[x] = -1;
+		}
+
+		int a = 0;
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				if (agrupamento.get(x)[j] != -1) {
+					aux[a] = agrupamento.get(x)[j];
+					a++;
+				}
+			}
+		}
+
+		// formata meu agrupamento
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				agrupamento.get(x)[j] = -1;
+			}
+		}
+
+		int countAux = 0;
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 7; j++) {
+				if (aux[countAux] != -1) {
+					agrupamento.get(x)[j] = aux[countAux];
+				}
+				countAux++;
+			}
+		}
+
+		return vetorResult;
 	}
 
 	public boolean freeDataBlocks(int[] blockId) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean checkBlock = false;
+
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				for (int y = 0; y < blockId.length; y++) {
+					if (agrupamento.get(x)[j] == blockId[y]) {
+						checkBlock = true;
+						agrupamento.get(x)[j] = -1;
+					}
+				}
+			}
+		}
+
+		// vetor auxiliar para reorganizar agrupamento
+		int aux[] = new int[totalBlocos];
+		for (int x = 0; x < totalBlocos; x++) {
+			aux[x] = -1;
+		}
+
+		int a = 0;
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				if (agrupamento.get(x)[j] != -1) {
+					aux[a] = agrupamento.get(x)[j];
+					a++;
+				}
+			}
+		}
+
+		// formata meu agrupamento
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				agrupamento.get(x)[j] = -1;
+			}
+		}
+
+		// reescreve agrupamento
+		int countAux = 0;
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 8; j++) {
+				if (aux[countAux] != -1) {
+					agrupamento.get(x)[j] = aux[countAux];
+				}
+				countAux++;
+			}
+		}
+
+		return checkBlock;
 	}
 
 	public void format() {
-            
-            for (int x = 0; x < agrupamento.size(); x++) {
+		// marca todos os blocos como livres
+		agrupamento = new ArrayList<int[]>();
+		int total = 0;
 
-                for (int j = 0; j < 8; j++) {
+		if (totalBlocos % 7 == 0)
+			total = totalBlocos / 7;
+		else
+			total = (totalBlocos / 7) + 1;
 
-                    agrupamento.get(x)[j] = -1;
+		for (int i = 0; i < total; i++) {
+			int[] vetor = new int[8];
+			for (int j = 0; j < 8; j++)
+				vetor[j] = -1;
+			agrupamento.add(vetor);
+		}
 
-                }
-
-            }
-        
-            agrupamento.get(0)[0] = 0;
+		int count = 1;
+		for (int x = 0; x < agrupamento.size(); x++) {
+			for (int j = 0; j < 7; j++) {
+				if (count < totalBlocos) {
+					agrupamento.get(x)[j] = count;
+					count++;
+				}
+			}
+		}
 
 	}
 
@@ -190,101 +319,85 @@ public class FileOrganizationManagerAgrupamento implements ManagementInterface {
 			}
 		}
 
-		/*
-		 * for (int j = 0; j < emptyList.length; j++) {
-		 * System.out.print(emptyList[j] + " "); }
-		 */
-
 		return emptyList;
 	}
 
 	// percorrer e pegar blocos que nao estao na lista
 	public int[] getUsedFileBlockList() {
+		// vetor auxiliar para reorganizar agrupamento
+		int aux[] = new int[totalBlocos];
+		for (int x = 0; x < totalBlocos; x++) {
+			aux[x] = -1;
+		}
 
-		/*
-		 * int alocList[]; int temp[];
-		 * 
-		 * int count = 0, k = 0, j = 0; int arm;
-		 * 
-		 * temp = new int[totalBlocos]; alocList = new int[totalBlocos -
-		 * getEmptyFileBlockList().length]; //Blocos Totais - disponiveis
-		 * 
-		 * 
-		 * //aramazenar os blocos disponiveis na lista for (int l = 0; l <
-		 * agrupamento.size(); l++) {
-		 * 
-		 * for (int t = 0; t < 8; t++) {
-		 * 
-		 * temp[k] = agrupamento.get(l)[t]; k++;
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * for(int i = 0; i < temp.length; i++) {
-		 * 
-		 * if(temp[i] != count) {
-		 * 
-		 * alocList[j] = count; //0 j++; } count++; }
-		 * 
-		 * for (int z = 0; z < alocList.length; z++) {
-		 * System.out.print(alocList[z] + " "); }
-		 */
+		// verifica quantos blocos livres
+		int count = 0;
+		for (int l = 0; l < agrupamento.size(); l++) {
+			for (int t = 0; t < 8; t++) {
+				if (agrupamento.get(l)[t] != -1) {
+					aux[agrupamento.get(l)[t]] = agrupamento.get(l)[t];
+					count++;
+				}
+			}
+		}
 
-		return null;
+		// monta o vetor de resposta com os blocos alocados
+		int[] result = new int[totalBlocos - count];
+		int a = 0;
+		for (int i = 0; i < aux.length; i++) {
+			if (aux[i] == -1) {
+				result[a] = i;
+				a++;
+			}
+		}
+
+		return result;
 	}
 
 	public boolean saveToFile(String fileName) {
-            
-            File fileSave;
-            FileWriter fw;
-            BufferedWriter save;
-            PrintWriter pw;
-            int i = 0, k = 0;
-            int temp[];
-            int arm[];
+		File fileSave;
+		FileWriter fw;
+		BufferedWriter save;
+		PrintWriter pw;
 
-            try {
+		try {
 
-                fileSave = new File(fileName + ".txt");
-                fw = new FileWriter(fileSave);
-                save = new BufferedWriter(fw);
-                pw = new PrintWriter(fileSave);
+			fileSave = new File(fileName + ".txt");
+			fw = new FileWriter(fileSave);
+			save = new BufferedWriter(fw);
+			pw = new PrintWriter(fileSave);
 
-                temp = getEmptyFileBlockList();
-                arm = new int[getEmptyFileBlockList().length];
-                
-                for(int x = 0; x < temp.length; x++)  {
-                
-                    k = temp[x];  //k armazena o bloco
-                    for(int j = 0; j < temp.length; j++)  {
-                        
-                        if(k != -1)  {
-                            arm[k] = 0;
-                        }
-                    
-                    }
+			boolean livre = false;
+			for (int i = 0; i < totalBlocos; i++) {
+				livre = false;
+				if (i != 0 && i % 8 == 0) {
+					pw.println();
+				}
+				for (int l = 0; l < agrupamento.size(); l++) {
+					for (int t = 0; t < 8; t++) {
+						if (agrupamento.get(l)[t] == i) {
+							pw.write("0");
+							livre = true;
+						}
+					}
+				}
+				if (livre == false) {
+					pw.write("1");
+				}
 
-                    //pw.write(Integer.toString(temp));
-                }
-                //pw.println();
-                
-                for (int z = 0; z < temp.length; z++) {
-                    System.out.print(temp[z] + " ");
-                }
-                    
-  
-                save.flush();
-                save.close();
-                fw.close();
-                pw.close();
+			}
 
-            } catch (IOException ioe) {
-                System.err.println(ioe);
-            }
+			save.flush();
+			save.close();
+			fw.close();
+			pw.close();
 
-            return false;
-		
+		} catch (IOException ioe) {
+			System.err.println(ioe);
+		}
+
+		return false;
+
 	}
 
 }
